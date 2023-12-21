@@ -24,12 +24,6 @@ def make_cpp_file(func_names : list[str],d : str,header : str):
         f.write(content)
 
 def make_dir(d : str):
-    try:
-        os.remove(d+"\\*.class")
-        os.remove(d+"\\*.h")
-        os.remove(d+"\\*.cpp")
-    except:
-        pass
     last_dir_name = d.split('\\')[-1]
     if not os.path.exists(d+f"\\{last_dir_name}.java"):
         return
@@ -37,7 +31,8 @@ def make_dir(d : str):
     jfile = d+f"\\{last_dir_name}.java"
     os.system(f"javac -h {d} {jfile}")
     func_names = get_func_names(d+"\\"+header_name)
-    make_cpp_file(func_names,d,header_name)
+    if not os.path.exists(d+"\\native.cpp"):
+        make_cpp_file(func_names,d,header_name)
 
 
 for i in os.listdir(working_dir):

@@ -12,7 +12,7 @@ import com.api.simapi.MandelbrotJava.MandelbrotJava;
 import com.jni.Mandelbrot.Mandelbrot;
 
 @RestController
-public class HomeController {
+public class Example1Controller {
     
     @GetMapping("/hello")
     public String hello() {

@@ -23,6 +23,7 @@ JNIEXPORT jintArray JNICALL Java_com_jni_Mandelbrot_Mandelbrot_coords
     }
     jintArray jcoords = env->NewIntArray(1000*1000);
     env->SetIntArrayRegion(jcoords,0,1000*1000,coords);
+    delete[] coords;
     return jcoords;
 }
 

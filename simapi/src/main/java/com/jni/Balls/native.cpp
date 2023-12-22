@@ -36,6 +36,8 @@ void loop() {
   }
 }
 
+b2Vec2 mousePos(0,0);
+
 JNIEXPORT void JNICALL Java_com_jni_Balls_Balls_start
   (JNIEnv *, jobject) {
     if(started){
@@ -90,6 +92,10 @@ JNIEXPORT void JNICALL Java_com_jni_Balls_Balls_start
         fixture_defs.push_back(move(fixtureDef));
     }
 
+    // your mouse will move this object
+    circle_shapes[0].get()->m_radius = 20;
+    bodies[0]->SetGravityScale(0);
+
     t = new thread(loop);
   }
 
@@ -104,6 +110,14 @@ JNIEXPORT jobjectArray JNICALL Java_com_jni_Balls_Balls_ballPositions
       env->SetObjectArrayElement(coords,i,obj);
     }
     return coords;
+}
+
+JNIEXPORT void JNICALL Java_com_jni_Balls_Balls_mousePos(JNIEnv *, jobject, jint x, jint y) {
+  mousePos.Set(x,y);
+  
+  // move towards mouse
+  const b2Vec2 dir((x-bodies[0]->GetPosition().x)*1000000,(y-bodies[0]->GetPosition().y)*1000000);
+  bodies[0]->SetLinearVelocity(dir);
 }
 
 

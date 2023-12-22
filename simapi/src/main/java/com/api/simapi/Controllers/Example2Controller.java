@@ -22,4 +22,14 @@ public class Example2Controller {
         Balls.Pos[] coords = new Balls().ballPositions(Balls.Pos.class);
         return coords;
     }
+
+    @MessageMapping("/mousepos")
+    public void mousePos(String message){
+        try {
+            String position_xy_str[] = message.split("-");
+            int position_x = Integer.parseInt(position_xy_str[0]);
+            int position_y = Integer.parseInt(position_xy_str[1]);
+            new Balls().mousePos(position_x, position_y);
+        }catch(Exception e){}
+    }
 }

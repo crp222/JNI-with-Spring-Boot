@@ -23,6 +23,14 @@ JNIEXPORT void JNICALL Java_com_jni_Balls_Balls_start
 JNIEXPORT jobjectArray JNICALL Java_com_jni_Balls_Balls_ballPositions
   (JNIEnv *, jobject, jclass);
 
+/*
+ * Class:     com_jni_Balls_Balls
+ * Method:    mousePos
+ * Signature: (II)V
+ */
+JNIEXPORT void JNICALL Java_com_jni_Balls_Balls_mousePos
+  (JNIEnv *, jobject, jint, jint);
+
 #ifdef __cplusplus
 }
 #endif

@@ -15,5 +15,7 @@ public class Balls {
     public native void start();
 
     public native Pos[] ballPositions(Class<?> posClass);
+
+    public native void mousePos(int x,int y);
     
 }

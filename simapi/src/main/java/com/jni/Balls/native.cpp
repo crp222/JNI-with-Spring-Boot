@@ -6,11 +6,17 @@
 
 using namespace std;
 
-#define OBJ_COUNT 1000
+#define OBJ_COUNT 2000
 
-#define R 10
+#define R 5.0f
 
-b2Vec2 gravity(0.0f,10.0f);
+#define WIDTH 1000.0f
+#define HEIGHT 1000.0f
+
+#define SCALE_TO_1000 1.0f
+#define MOUSETRACK_BALL_VELOCITY 400000.0f
+
+b2Vec2 gravity(0.0f,100.0f);
 
 b2World world(gravity);
 
@@ -46,30 +52,30 @@ JNIEXPORT void JNICALL Java_com_jni_Balls_Balls_start
     started = true;
 
     unique_ptr<b2BodyDef> wallbodydef = make_unique<b2BodyDef>();
-    wallbodydef.get()->position.Set(500.0f, 1000.0f);
+    wallbodydef.get()->position.Set(WIDTH/2.0f, HEIGHT);
     walls[0] = world.CreateBody(wallbodydef.get());
     unique_ptr<b2PolygonShape> wallbox = make_unique<b2PolygonShape>();
-    wallbox.get()->SetAsBox(500.0f, 50.0f);
+    wallbox.get()->SetAsBox(WIDTH,HEIGHT/100.0f);
     walls[0]->CreateFixture(wallbox.get(), 0.0f);
     body_defs.push_back(move(wallbodydef));
     polygon_shapes.push_back(move(wallbox));
 
     
     unique_ptr<b2BodyDef> wallbodydef2 = make_unique<b2BodyDef>();
-    wallbodydef2.get()->position.Set(1000.0f, 500.0f);
+    wallbodydef2.get()->position.Set(WIDTH, HEIGHT/2.0f);
     walls[1] = world.CreateBody(wallbodydef2.get());
     unique_ptr<b2PolygonShape> wallbox2 = make_unique<b2PolygonShape>();
-    wallbox2.get()->SetAsBox(50.0f, 500.0f);
+    wallbox2.get()->SetAsBox(WIDTH/100.0f, HEIGHT/2.0f);
     walls[1]->CreateFixture(wallbox2.get(), 0.0f);
     body_defs.push_back(move(wallbodydef2));
     polygon_shapes.push_back(move(wallbox2));
 
 
     unique_ptr<b2BodyDef> wallbodydef3 = make_unique<b2BodyDef>();
-    wallbodydef3.get()->position.Set(0.0f, 500.0f);
+    wallbodydef3.get()->position.Set(0.0f, HEIGHT/2.0f);
     walls[2] = world.CreateBody(wallbodydef3.get());
     unique_ptr<b2PolygonShape> wallbox3 = make_unique<b2PolygonShape>();
-    wallbox3.get()->SetAsBox(50.0f, 500.0f);
+    wallbox3.get()->SetAsBox(WIDTH/100.0f, HEIGHT/2.0f);
     walls[2]->CreateFixture(wallbox3.get(), 0.0f);
     body_defs.push_back(move(wallbodydef3));
     polygon_shapes.push_back(move(wallbox3));
@@ -78,7 +84,7 @@ JNIEXPORT void JNICALL Java_com_jni_Balls_Balls_start
     for(int i=0;i<OBJ_COUNT;i++){
         unique_ptr<b2BodyDef> bodyDef = make_unique<b2BodyDef>();
         bodyDef.get()->type = b2_dynamicBody;
-        bodyDef.get()->position.Set(500.0f + (rand() % 10), 500.0f - i*(R+5));
+        bodyDef.get()->position.Set(WIDTH/2.0f + (rand() % 2 == 0 ? R : -R), HEIGHT/2.0f - i*(R*2));
         bodies[i] = world.CreateBody(bodyDef.get());
         unique_ptr<b2CircleShape> box = make_unique<b2CircleShape>();
         box.get()->m_radius = R;
@@ -113,10 +119,10 @@ JNIEXPORT jobjectArray JNICALL Java_com_jni_Balls_Balls_ballPositions
 }
 
 JNIEXPORT void JNICALL Java_com_jni_Balls_Balls_mousePos(JNIEnv *, jobject, jint x, jint y) {
-  mousePos.Set(x,y);
+  mousePos.Set(x/SCALE_TO_1000,y/SCALE_TO_1000);
   
   // move towards mouse
-  const b2Vec2 dir((x-bodies[0]->GetPosition().x)*1000000,(y-bodies[0]->GetPosition().y)*1000000);
+  const b2Vec2 dir((mousePos.x-bodies[0]->GetPosition().x)*MOUSETRACK_BALL_VELOCITY,(mousePos.y-bodies[0]->GetPosition().y)*MOUSETRACK_BALL_VELOCITY);
   bodies[0]->SetLinearVelocity(dir);
 }
 

@@ -11,8 +11,10 @@ This software is using the following libraries:
 
 # How to
 
+Open `simview` and run `npm install`
+
 Copy box2d headers to `simapi/src/main/java/com/jni/Balls/box2d`
 
 Build box2d and copy `libbox2d.a` to `simapi/src/main/java/com/jni/Balls/`
 
-`python run.py`
+Run `python run.py`

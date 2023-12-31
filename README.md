@@ -13,6 +13,6 @@ This software is using the following libraries:
 
 Copy box2d headers to `simapi/src/main/java/com/jni/Balls/box2d`
 
-Copy `libbox2d.a` to `simapi/src/main/java/com/jni/Balls/`
+Build box2d and copy `libbox2d.a` to `simapi/src/main/java/com/jni/Balls/`
 
 `python run.py`

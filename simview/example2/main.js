@@ -19,9 +19,12 @@ myCanvas.addEventListener("mousemove",(e)=>{
     mouse_y = e.clientY;
 })
 
+var id = -1;
 
 fetch("http://localhost:8080/balls").then(data => data.text())
-.then(id=>{
+.then(id_=>{
+
+id = id_;
 
 var socket = new SockJS("http://localhost:8080/simapi")
 const client = stomp.over(socket);
